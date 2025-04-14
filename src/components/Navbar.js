@@ -27,13 +27,25 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/workout-log">
-                Workout Log
+              <Link className="nav-link text-white" to="/workout-routines">
+                Workout Routines
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-white" to="/goals">
-                Goals
+              <Link className="nav-link text-white" to="/message-board">
+                Fitness Chat
+              </Link>
+            </li>
+            {/* Added Challenges link */}
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/challenges">
+                Challenges
+              </Link>
+            </li>
+            {/* Added Group Workouts link */}
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/group-workouts">
+                Group Workouts
               </Link>
             </li>
           </ul>
@@ -44,5 +56,9 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+
+
 
 

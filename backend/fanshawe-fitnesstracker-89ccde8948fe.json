@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "fanshawe-fitnesstracker",
+  "private_key_id": "89ccde8948fec110169936cdd2f7680180f13e5b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCTaxfGyHWCVjzv\nfOlEPgdzlE0KD0WOWhscJZSwic7ofMdljooQ0zHeoq7xb694FIrYYBJqA46HkLfZ\nLxSHOX6/yzLIxh6PIYo81TN881n26muE6RUGW4jF/RFuBZuquBGfeeBpbyfMQvXa\nh2LGsO9m0NaL6Xkpy8sj7zi8gm34Dgx9nAeVZX0GJxmq3wgqLvJH93FK3YyCBxKs\nsi66ZOy1Bwus6YBHsU3ujPnwD3hre4JZUUgFXKbjTZmyBVoLuj9nxv0YrTEZymsN\n04yQp/B9HuMBvp+nrgIkJ2/jlCYkRwHhkta6EK4NZKxK21TrYdt6+t+4x3CBFcPb\nuQh5BNIXAgMBAAECggEAHtn9Rl1Cdm3837P5D46ZuZ8SRmYuzN1fqhLVXOLiWfZv\nNnpPu7ivSaQrT5zrkIpgCmuEvwoShJ2NVFcNiUVHmPT6IlmQIK1IxHVsCpzVOZ8S\ntGShQUzbwW+2e5uR2fcevQzhIb+hCRcEY+EMk3+JAq/3Dp3kfRJI57LTYWQ8hnp8\n45IuIqUzPxNpjbPuPr+2e1FNbOHy++m1Eko7/AL7vrTSWmnh/WQUYa0+fh832vnU\nFNeGrZuBrJyPJ+RnzufZrAJ1Dv8a2sS9i/bHUzr61uAfXULIxJoARMAzCFbYYh3s\n/qa90Ss8jVNj2tKZl/NbYmbq55vCiYEK4ANjj3A8yQKBgQDC+MNlvyeU8K6kks7Z\nODpIJlJ7Sudfe+tgeaqdGmGC5kVrjdOORjkTFAHluzs5paPf4PXbspp8ggvdL0/S\ngM0UlDgH743D8KJWWgYGkAO4yaUEeIGMHeYj0uhpJWDp6rdGMnLD68MZ0zcjGSMD\nZjXbk3RcjUVBFSFycDQ2UeuJnwKBgQDBj9av6d8EAssQ+2dEFtkQZX7oY7zgdAXb\nuqJvykWCuzG1MJkzE4ISEz7IU4UPLshuUSFuOYBRx5CQJQ5mMRuAcggEhdaR/6AI\n97M4E25zoxuIJbH+UXafPluY4UYjhbyoYg2Tt6uz2p00kCWrQrmwVwZL8vNSDLlW\nv3DulTBUiQKBgCnzRm+c+pJEWv9UCyeXvoqJnFOk4TWdPx7J7tjQtUxp6WPj5zIE\nkAE329SnPW4A4sqn5552xmClxpG3vVAIoJed8JRcib8wBm3X/tXopLRcxqG4n/8a\n68qndZQyE7Eg7IAxGJppHthupr1piiwQEOSGzJGhX9ZKCqFJ3SIW7Dv3AoGAJCyV\nmtrCayV6ffn+GqOKfZ36UcQSEICed6oxoWLUCtKhP5ONjhYfQPGH0jiJrYS4wKU4\n8jic2qvJQKcsQbz7vs2Q4geBSlfTuNlSDTDUe5gIFTG2Sik/WhN1WuT/DrR3xaBN\nmUXCOSKqLqCh6ZfWzDX3X0pQXw0xthyhJnWLSsECgYEAle7Nl+NbJ3rJeRuxIiCr\nRE+oWVfpoVp5WEAKJSzYCigy6gvPa0gh/PGreHw54G/XiJh728/GZJdprGTMcPVn\nTeOeRq6nKkXFpTW7ZEeuh7I0xN34Sp0Q+cLQdyrT7GwW7mbaQKW+2bgCUT/zJ7fc\niib3gDhEQ5hYyJHngE1mVJ4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-api-734@fanshawe-fitnesstracker.iam.gserviceaccount.com",
+  "client_id": "109700948083153888044",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-api-734%40fanshawe-fitnesstracker.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
