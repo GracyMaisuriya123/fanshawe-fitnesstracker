@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
 import { auth, db } from './firebaseConfig';  // Ensure correct path to firebase config
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -90,16 +89,10 @@ const MessageBoard = () => {
       </div>
       <footer style={{ padding: "20px", textAlign: "center", backgroundColor: "#2E3A59", color: "#fff", fontSize: "16px", marginTop: "20px" }}>
         <p>&copy; 2025 Fanshawe Fitness. All Rights Reserved.</p>
-        <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by the Fanshawe Web Dev Team</p>
+        <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by Gracy Maisuriya</p>
       </footer>
     </div>
-    
   );
 };
 
 export default MessageBoard;
-
-
-
-
-

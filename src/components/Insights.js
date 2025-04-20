@@ -79,7 +79,7 @@ function Insights() {
       <footer style={{ padding: "10px 0", backgroundColor: "#2E3A59", color: "#fff", textAlign: "center", marginTop:"30px"}}>
         <Container>
           <p className="mb-0">&copy; 2025 Fanshawe Fitness. All rights reserved.</p>
-          <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by the Fanshawe Web Dev Team</p>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by Gracy Maisuriya</p>
         </Container>
       </footer>
       </div>

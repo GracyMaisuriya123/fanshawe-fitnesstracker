@@ -1,74 +1,34 @@
 const express = require('express');
-const { SessionsClient } = require('@google-cloud/dialogflow');
 const cors = require('cors');
-require('dotenv').config(); // To load environment variables
-
 const app = express();
-const PORT = process.env.PORT || 4000;
-
 app.use(cors());
 app.use(express.json());
 
-// Google Cloud Dialogflow setup
-const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID; // Your Google Cloud Project ID
-const sessionId = '12345'; // Session ID, it can be dynamic if needed
-const languageCode = 'en'; // Language code for the chatbot (e.g., 'en' for English)
+// Simple API to handle chat messages
+app.post('/api/chat', (req, res) => {
+  const userMessage = req.body.message;
+  console.log(`Received message from user: ${userMessage}`);
 
-const sessionClient = new SessionsClient();
 
-app.post('/api/chat', async (req, res) => {
-    const userMessage = req.body.message;
+  let aiResponse = "I'm not sure how to respond to that.";
 
-    // Check if the user message is provided
-    if (!userMessage) {
-        return res.status(400).send('Message is required');
-    }
+  if (userMessage.toLowerCase().includes('hello')) {
+    aiResponse = "Hello! How can I assist you today?";
+  } else if (userMessage.toLowerCase().includes('how are you')) {
+    aiResponse = "I'm just a bot, but I'm doing great! How about you?";
+  }else if (userMessage.toLowerCase().includes('fine')) {
+    aiResponse = "Thats'great. How can i help you today?";
+  } else if (userMessage.toLowerCase().includes('what is the best workout to start with?')) {
+    aiResponse = "You can choose your personal level workout through our workout routine page or else you can book a group workout with our personalized and mastered coaches.";
+  }  else if (userMessage.toLowerCase().includes('bye')) {
+    aiResponse = "Goodbye! Have a great day!";
+  }
 
-    try {
-        // Create session path
-        const sessionPath = sessionClient.projectAgentSessionPath(projectId, sessionId);
-
-        // Construct the request to Dialogflow
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    text: userMessage,
-                    languageCode: languageCode,
-                },
-            },
-        };
-
-        // Send request to Dialogflow
-        const responses = await sessionClient.detectIntent(request);
-        const result = responses[0].queryResult;
-
-        // Send back the response from Dialogflow
-        if (result.intent) {
-            res.json({ message: result.fulfillmentText });
-        } else {
-            res.status(500).send('No intent matched.');
-        }
-    } catch (error) {
-        console.error('Error communicating with Google Cloud Dialogflow:', error);
-        res.status(500).send('Error communicating with AI');
-    }
+  // Send response back to the frontend
+  res.json({ message: aiResponse });
 });
 
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { auth, db } from "./firebaseConfig";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // Store student's name
+  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [isSignup, setIsSignup] = useState(false); // Toggle between login/signup
 
-  // Listen for authentication state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -22,11 +27,9 @@ function Profile() {
         setUserData(null);
       }
     });
-
     return unsubscribe;
   }, []);
 
-  // Fetch user data from Firestore
   const fetchUserData = async (uid) => {
     try {
       const userRef = doc(db, "users", uid);
@@ -41,75 +44,59 @@ function Profile() {
     }
   };
 
-  // Handle Login or Signup
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(""); // Reset message
+    setMessage("");
 
     if (!email.endsWith("@fanshaweonline.ca")) {
-      setMessage("❌ Only Fanshawe students can log in!");
+      setMessage("❌ Only Fanshawe students can register/login!");
       return;
     }
 
     try {
-      let userCredential;
-      try {
-        // Attempt to login the user
-        userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setMessage("✅ Login successful!");
-      } catch (error) {
-        if (error.code === "auth/user-not-found") {
-          // If user doesn't exist, prompt for name and create a new user
-          const userName = prompt("Please enter your name: ");
-          if (!userName) {
-            setMessage("❌ Name is required to create an account!");
-            return;
-          }
-
-          try {
-            userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const newUser = {
-              name: userName,  // Store the user's name
-              email: email,
-              fanshaweID: email.split("@")[0], // Use part of the email as ID
-              lastLogin: new Date().toISOString(),
-            };
-
-            // Save new user to Firestore
-            const userRef = doc(db, "users", userCredential.user.uid);
-            await setDoc(userRef, newUser);
-            setMessage("✅ New account created & logged in!");
-
-            // Set user data after creation
-            setUser(newUser);
-            setUserData(newUser);
-            return;
-          } catch (createError) {
-            setMessage("❌ Error creating user: " + createError.message);
-            return;
-          }
-        } else {
-          throw error; // Rethrow if error is not 'user-not-found'
+      if (isSignup) {
+        if (!name) {
+          setMessage("❌ Name is required for signup!");
+          return;
         }
-      }
 
-      // After successful login, update user data in Firestore
-      const user = userCredential.user;
-      const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, {
-        name: user.displayName || "Student",
-        email: user.email,
-        fanshaweID: user.uid,
-        lastLogin: new Date().toISOString(),
-      }, { merge: true });
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const newUser = {
+          name,
+          email,
+          fanshaweID: email.split("@")[0],
+          lastLogin: new Date().toISOString(),
+        };
+
+        await setDoc(doc(db, "users", userCredential.user.uid), newUser);
+        setMessage("✅ Account created successfully!");
+        setUser(newUser);
+        setUserData(newUser);
+      } else {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+        const loginData = {
+          email: userCredential.user.email,
+          lastLogin: new Date().toISOString(),
+        };
+
+        await setDoc(doc(db, "users", userCredential.user.uid), loginData, { merge: true });
+        fetchUserData(userCredential.user.uid);
+        setMessage("✅ Logged in successfully!");
+      }
 
       setEmail("");
       setPassword("");
-      fetchUserData(user.uid);
+      setName("");
     } catch (error) {
       let errorMessage = "❌ Error: " + error.message;
-      if (error.code === "auth/wrong-password") errorMessage = "❌ Incorrect password!";
-      else if (error.code === "auth/weak-password") errorMessage = "❌ Password should be at least 6 characters!";
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "❌ Email already in use. Try logging in.";
+      } else if (error.code === "auth/wrong-password") {
+        errorMessage = "❌ Incorrect password!";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "❌ Password should be at least 6 characters!";
+      }
       setMessage(errorMessage);
     }
   };
@@ -125,15 +112,29 @@ function Profile() {
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#f5f5f5", minHeight: "100vh", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", fontSize: "36px", fontWeight: "bold", marginBottom: "20px" }}>Fanshawe Student Login</h1>
-      {message && <p style={{ color: message.startsWith("✅") ? "green" : "red", textAlign: "center" }}>{message}</p>}
+      <h1 style={{ textAlign: "center", fontSize: "36px", fontWeight: "bold", marginBottom: "20px" }}>
+        Fanshawe Student {isSignup ? "Signup" : "Login"}
+      </h1>
+
+      {message && (
+        <p style={{ color: message.startsWith("✅") ? "green" : "red", textAlign: "center" }}>{message}</p>
+      )}
 
       {!user ? (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "10px", width: "300px" }}>
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", width: "300px" }}>
+            {isSignup && (
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ddd", fontSize: "16px" }}
+              />
+            )}
             <input
               type="email"
-              placeholder="Fanshawe Email (e.g. student@fanshaweonline.ca)"
+              placeholder="Fanshawe Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -147,45 +148,42 @@ function Profile() {
               required
               style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ddd", fontSize: "16px" }}
             />
-            <button 
+            <button
               type="submit"
               style={{
-                padding: "12px", 
-                backgroundColor: "#FF6347", 
-                color: "#fff", 
-                borderRadius: "5px", 
+                padding: "12px",
+                backgroundColor: "#FF6347",
+                color: "#fff",
+                borderRadius: "5px",
                 fontSize: "16px",
                 fontWeight: "bold",
-                border: "none"
+                border: "none",
               }}
             >
-              Login
+              {isSignup ? "Sign Up" : "Log In"}
             </button>
           </form>
+          <p style={{ marginTop: "10px", cursor: "pointer", color: "#007bff" }} onClick={() => setIsSignup(!isSignup)}>
+            {isSignup ? "Already have an account? Log in" : "New here? Sign up"}
+          </p>
         </div>
       ) : (
         <div style={{ textAlign: "center" }}>
           <h2>Welcome, {userData?.name || "Student"}</h2>
-          <p style={{ fontSize: "18px", marginTop: "20px" }}>
-            Email: {userData?.email || user.email}
-          </p>
-          <p style={{ fontSize: "18px" }}>
-            Fanshawe ID: {userData?.fanshaweID || "N/A"}
-          </p>
-          <p style={{ fontSize: "18px" }}>
-            Last Login: {userData?.lastLogin ? new Date(userData.lastLogin).toLocaleString() : "N/A"}
-          </p>
-          <button 
+          <p>Email: {userData?.email}</p>
+          <p>Fanshawe ID: {userData?.fanshaweID}</p>
+          <p>Last Login: {userData?.lastLogin ? new Date(userData.lastLogin).toLocaleString() : "N/A"}</p>
+          <button
             onClick={handleLogout}
             style={{
-              marginTop: "20px", 
-              padding: "12px", 
-              backgroundColor: "#FF6347", 
-              color: "#fff", 
-              borderRadius: "5px", 
+              marginTop: "20px",
+              padding: "12px",
+              backgroundColor: "#FF6347",
+              color: "#fff",
+              borderRadius: "5px",
               fontSize: "16px",
               fontWeight: "bold",
-              border: "none"
+              border: "none",
             }}
           >
             Logout
@@ -197,6 +195,7 @@ function Profile() {
 }
 
 export default Profile;
+
 
 
 

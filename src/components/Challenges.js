@@ -264,7 +264,7 @@ const Challenges = () => {
             {/* Footer */}
             <footer style={{ padding: "20px", textAlign: "center", backgroundColor: "#2E3A59", color: "#fff", fontSize: "16px", marginTop: "20px" }}>
         <p>&copy; 2025 Fanshawe Fitness. All Rights Reserved.</p>
-        <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by the Fanshawe Web Dev Team</p>
+        <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by Gracy Maisuriya</p>
       </footer>
         </div>
     );
