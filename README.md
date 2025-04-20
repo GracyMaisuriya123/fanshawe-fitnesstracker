@@ -34,8 +34,8 @@ A web application designed for Fanshawe College students to help track fitness g
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/fanshawe-fitness-tracker.git
-cd fanshawe-fitness-tracker
+git clone https://github.com/GracyMaisuriya123/fanshawe-fitnesstracker.git
+cd fanshawe-fitnesstracker
 
 # Install frontend dependencies
 npm install
