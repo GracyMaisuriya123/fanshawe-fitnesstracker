@@ -9,10 +9,9 @@ const MessageBoard = () => {
   const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Fetch user data from Firestore based on logged-in user UID
   useEffect(() => {
     const fetchUserName = async () => {
-      const user = auth.currentUser;  // Get current logged-in user
+      const user = auth.currentUser;
 
       if (user) {
         try {
@@ -20,14 +19,14 @@ const MessageBoard = () => {
           const userSnap = await getDoc(userRef);
 
           if (userSnap.exists()) {
-            setUserName(userSnap.data().name); // Get name from Firestore
+            setUserName(userSnap.data().name);
           } else {
-            setUserName('Student');  // Default name if not found
+            setUserName('Student');
           }
         } catch (error) {
           console.error('Error fetching user data from Firestore:', error);
         } finally {
-          setLoading(false); // Set loading to false once done
+          setLoading(false);
         }
       }
     };
@@ -42,7 +41,7 @@ const MessageBoard = () => {
       setNewMessage('');
 
       try {
-        const response = await axios.post('http://localhost:4000/api/chat', {
+        const response = await axios.post('https://fanshawe-fitness-tracker-api.onrender.com/api/chat', {
           message: newMessage,
         });
         const aiMessage = { sender: 'AI', text: response.data.message };
@@ -54,7 +53,7 @@ const MessageBoard = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Display loading while fetching user data
+    return <div>Loading...</div>;
   }
 
   return (
@@ -87,6 +86,7 @@ const MessageBoard = () => {
           Send
         </button>
       </div>
+
       <footer style={{ padding: "20px", textAlign: "center", backgroundColor: "#2E3A59", color: "#fff", fontSize: "16px", marginTop: "20px" }}>
         <p>&copy; 2025 Fanshawe Fitness. All Rights Reserved.</p>
         <p style={{ fontSize: "14px", opacity: 0.8 }}>Built with ❤️ by Gracy Maisuriya</p>
